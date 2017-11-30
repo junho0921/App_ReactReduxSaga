@@ -1,0 +1,329 @@
+@charset "utf-8";
+/* common css */
+html { /* overflow:auto;*/
+    scrollbar-face-color: #f3f3f3;
+    scrollbar-arrow-color: #637f83;
+    scrollbar-highlight-color: #dae0e0;
+    scrollbar-shadow-color: #dae0e0;
+    scrollbar-darkshadow-color: #fff;
+    scrollbar-track-color: #fff;
+    scrollbar-3dlight-color: #fff;
+    border: none;
+    font-size: 10px;
+}
+
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, textarea, p, blockquote, th, td {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    /*font: 12px/1.5 \5b8b\4f53, Arial, Verdana;*/
+    font-family: "Microsoft YaHei", Arial, Verdana;
+    font-size: 12px;
+    color: #000;
+    background: #fbfbfb;
+    height: 100%;
+}
+
+ul {
+    list-style: none;
+}
+
+button {
+    border: 0 none;
+    padding: 0;
+    cursor: pointer;
+    outline: none
+}
+
+img {
+    border: 0;
+}
+p{display: inline;}
+
+a {
+    text-decoration: none;
+    outline: none;
+}
+
+body::-webkit-scrollbar, body::-webkit-scrollbar-thumb {width: 0;}
+#appWrap{
+    height: 54rem;
+    overflow: hidden;
+}
+#appWrap::-webkit-scrollbar {background: #fff;width: 0}
+#appWrap::-webkit-scrollbar-thumb {background: #23bc88;width: 0}
+#appWrap:hover::-webkit-scrollbar, #appWrap:hover::-webkit-scrollbar-thumb {width: 3px}
+
+/*基本布局*/
+#appContainer, #appHeader{
+    background: white;
+    margin: 0 auto;
+    width: 64rem;
+}
+#appContainer{
+    min-height: 51.2rem
+}
+/*appHeader*/
+#appHeader{
+    line-height: 3rem;
+    height: 3rem;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    color: #9a9a9a;
+    z-index: 1002;
+}
+#appHeader .wrap {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    background: white;
+}
+#appHeader .appLink {background: #fff;}
+
+/*appHeader的按钮样式*/
+#appHeader input{display: none;}
+#appHeader .appLink.active,
+#appHeader input:checked + span{
+    /*font-weight: 600;*/
+    color: #23bc88;
+}
+
+/*跳转按钮*/
+.appLink{cursor: pointer}
+
+/*加载的遮蔽层*/
+.loadingMask {
+    position: relative;
+}
+.loadingMask::after {
+    content:'';
+    display: block;
+    position: absolute;
+    left:0;
+    right:0;
+    top:0;
+    bottom:0;
+    background: rgba(0, 0, 0, 0.2);
+}
+/*按钮的基本样式*/
+.optSongBtn{
+    display: inline-block;
+    cursor: pointer;
+    color: #999;
+    padding: 4px 6px 4px 6px;
+    font-size: 12px;
+    line-height: 14px;
+    height: 14px;
+    background-size: 14px auto;
+    background-repeat: no-repeat;
+    background-position-y: 0px;
+    background-position-x: 0px;
+    background-clip: content-box;
+    background-origin: content-box;
+    min-width: 14px;
+    text-align: right;
+    vertical-align: middle;
+}
+/*全部选择按钮的样式*/
+.optSongBtn.all{
+    margin-right: 8px;
+    width: 68px;
+    border: 1px solid #999;
+}
+.optSongBtn.all:hover{
+    border-color: #23bc88;
+    color: #23bc88;
+}
+/*全部选择按钮的样式*/
+.optSongBtn.download{background-image: url(../images/download.png);}
+.optSongBtn.listen{background-image: url(../images/display.png);}
+.optSongBtn.add{ background-image: url(../images/add.png);}
+.optSongBtn.download.isCharge{
+    background-size: 17px auto;
+    line-height: 16px;
+    height: 16px;
+    width: 17px;
+    padding: 3px 2px 3px 7px;
+    background-image: url(../images/download_charge.png);
+}
+.optSongBtn.download.isCharge:hover{
+    background-position-y: -16px;
+}
+.optSongBtn:hover{background-position-y: -14px;}
+.optSongBtn:hover{background-position-y: -14px;}
+.optSongBtn:hover{background-position-y: -14px;}
+/*按钮被禁用*/
+.optSongBtn.forbidden,
+.optSongBtn.forbidden:hover{background-position-y: -42px;}
+.optSongBtn.download.isCharge.forbidden,
+.optSongBtn.download.isCharge.forbidden:hover{background-position-y: -48px;}
+
+/*歌手列表格式选择按钮*/
+.optSongBtn.imgMode{background-image: url(../images/imgList.png);}
+.optSongBtn.listMode{background-image: url(../images/list.png);}
+.optSongBtn.imgMode, .optSongBtn.listMode{
+    background-size: 17px auto;
+    line-height: 16px;
+    height: 16px;
+    width: 17px;
+    padding: 5px 12px 5px 12px;
+    border: 1px solid #ccc;
+    margin-right:-1px;
+}
+.displayMode{display: inline-block;}
+.displayMode.active{background-color: #23bc88!important;}
+.displayMode:hover{background-color: white;}
+.displayMode:hover i{
+    background-position-y: -16px;
+    border-color: #23bc88;
+}
+.displayMode.active i{
+    background-position-y: -32px!important;
+    border-color: #23bc88!important;
+}
+/*搜索框按钮*/
+.optSongBtn.searchBtn{background-image: url(../images/search.png);}
+
+/*页码*/
+#pageNavigator {
+    padding-top: 6px;
+    width: 100%;
+    justify-content: space-around;
+    width: 100%;
+    display: flex;
+}
+#pageNavigator span {
+    font-size: 14px;
+    cursor: pointer;
+    color: #656565;
+}
+#pageNavigator span.hide {
+    opacity: 0.5;
+    pointer-events: none;
+}
+#pageNavigator span:hover {
+    color: #23bc88;
+}
+#pageNavigator span.active {
+    font-size: 14px;
+    font-weight: 600;
+    color: #23bc88;
+}
+/*左边栏独立滚动条的css*/
+.hoverScrollBar{
+    transition: opacity 0.2s ease;
+    height: 482px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+.hoverScrollBar::-webkit-scrollbar-thumb {
+    width: 0;
+}
+.hoverScrollBar::-webkit-scrollbar {
+    width: 0;
+}
+.hoverScrollBar:hover::-webkit-scrollbar-thumb {
+    width: 6px;
+    background: #20bd88;
+    border-radius: 10px;
+}
+.hoverScrollBar:hover::-webkit-scrollbar {
+    width: 6px;
+    background: lightgrey;
+    border-radius: 10px;
+}
+/*右边栏独立滚动条的css*/
+.contentScrollBar{
+    height: 482px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    transition: opacity 0.2s ease;
+}
+.contentScrollBar::-webkit-scrollbar-thumb {
+    width: 6px;
+    background: #20bd88;
+    border-radius: 10px;
+}
+.contentScrollBar::-webkit-scrollbar {
+    width: 6px;
+    background: lightgrey;
+    border-radius: 10px;
+}
+
+/*loading效果*/
+#appContainer.loading::after{
+    opacity: 1;
+}
+#appContainer::after{
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    content: ' loading...';
+    text-align: center;
+    font-size: 30px;
+    opacity: 0.01;
+    transition: 0.3s ease all;
+    line-height: 486px;
+     pointer-events: none;
+    background-image: url(../images/loading.png);
+    background-repeat: no-repeat;
+    background-position: 49% 44%;
+    text-indent: 191px;
+    background-size: auto;
+    color: #ccc;
+}
+/*loading animation todo*/
+
+/*静止操作歌曲按钮的提示语样式*/
+.appTips {
+    position: fixed;
+    left: calc(50% - 117px);
+    top: calc(50% - 42px);
+    background: gray;
+    border-radius: 10px;
+    color: #fff;
+    text-align: center;
+    padding:12px;
+    width:234px;
+    box-sizing: border-box;
+    height:84px;
+}
+.appTips:before{
+    content: '!';
+    background: #fff;
+    line-height: 40px;
+    height: 40px;
+    width: 40px;
+    font-size: 20px;
+    font-weight: 600;
+    color: gray;
+    text-align: center;
+    border-radius: 100%;
+    display: inline-block;
+}
+.appTips span{
+    display: block;
+    padding-top: 5px;
+}
+
+/*内容的隐藏效果*/
+.hideContent{
+    opacity: 0!important;
+    pointer-events: none!important;;
+}
+
+.disableContent{
+    pointer-events: none!important;;
+}
+.disableContent .allCtrl{
+    opacity: 0.5;
+}

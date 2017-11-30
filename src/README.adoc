@@ -1,0 +1,57 @@
+= p
+:toc: left
+:toclevels: 3
+:toc-title: 目录
+:numbered:
+:sectanchors:
+:sectlinks:
+:sectnums:
+
+== 简介
+
+=== 框架
+
+. react 负责DOM
+. redux 负责状态
+. router 负责路由器
+. saga 负责异步管理
+
+把这些统筹关联, 需要::
+
+. react-router-dom
+. react-redux
+. react-router-redux
+. redux-saga
+
+=== 继续深入
+
+. sagaMiddleware
+
+=== 路由
+
+== 思维
+
+. 状态管理器(redux)
+	.. 先创建一个状态管理器
+	.. 后给状态管理器提供更新方式
+		... 方式是通过中间件的插件
+	.. 对应的, 有状态更新触发的重新渲染
+. 页面渲染(react-dom)
+	.. 只是负责静态渲染
+	.. 拥有记忆功能, 优化渲染节奏
+. 路由器
+	.. 路由是特殊的异步管理器, 通过中间件的方式来插入到redux
+	.. 路由器是一个独立模块, 可以是hash控制或者浏览器其他API
+. 异步管理器(saga)
+	.. 异步管理是状态管理, 所以通过中间件的方式来插入到redux
+
+
+=== 特点
+
+对比
+
+== 架构
+
+== 执行逻辑
+
+
