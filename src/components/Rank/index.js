@@ -2,31 +2,29 @@
  * Created by jiajunhe on 2016/12/9.
  */
 'use strict';
-
-import React from 'react';
+/*工具*/
+import React from 'react'; // 引用react模块才可以有jsx语法
 import './main.css';
-import {connect} from 'react-redux';
-import { push } from 'react-router-redux';
-
+import {connect} from 'react-redux'; // 需要使用redux的组件才能有触发状态修改的方法dispatch
+import { push } from 'react-router-redux'; // 因有路由器的修改路由触发状态修改的方法push
+/*组件*/
 import RankTags from './RankTags';
 import AllCtrlBtn from '../common/AllCtrlBtn';
 import SongList from '../common/SongList';
 import PageIndex from '../common/PageIndex';
 import RankDate from '../common/RankDate/index';
-
+/*信号*/
 import {toggleDatePanel} from '../../action/rank';
 import * as signalAction from '../../action/rank';
 import * as thunkAction from '../../action/rank_sideAction';
-
-console.error('actionMode = ', window.actionMode);
+/*模式: 异步管理模式还是状态管理器*/
 const {changeSongsOfPage, changeSongsOfDate, initialContent, changeSongsOfRank} =
 	(window.actionMode === 'sagaMode'? signalAction: thunkAction);
-
+/*创建组件*/
 class Rank extends React.Component {
 	constructor(props){
 		super(props);
-		const _this = this, dispatch = props.dispatch;
-
+		const _this = this, dispatch = props.dispatch; // 注意: dispatch方法是redux模块提供的
 		// 初始化页面内容: 请求推荐rankTag与songs
 		dispatch(initialContent(props.params.rank_id, props.params.pageIndex));
 

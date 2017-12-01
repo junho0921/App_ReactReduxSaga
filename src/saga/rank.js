@@ -44,7 +44,7 @@ function* getRankDate (rank_id){
 function* getRankSongs (rank_id, page){
   yield put(onLoadingStatus());
   yield put(clearSongs());
-  const result = yield _rankSongsRequest.get({page, rank_id});
+  const result = yield _rankSongsRequest.get({page, rank_id}); // todo 补充笔记: saga对比redux-thunk的一个好处是可以堵塞进行异步操作, 而redux-thunk的只能并发
   yield put(receiveRankSongs(result))
 }
 function* getRecommendTag (classInfo){

@@ -36,9 +36,11 @@ export function initialContent (activeTagId, pageIndex){
     // 			))
     // 	))
     // }
+
+    // 先获取所有的推荐榜单榜单标签
     return _rankListRequest.eachClassType((classInfo) => {
       return dispatch(getRecommendTag(classInfo))
-        .then(function getDefaultSongs({models, sortList}) {
+        .then(({models, sortList}) => {
           return activeTagId ? (// 加载指定的rankTag的歌曲,
             models[activeTagId] && dispatch(changeSongsOfRank(activeTagId, pageIndex))
           ) : (// 但没有指定rankTag的话, 默认选择HOT_RANK的第一个rankTag
@@ -67,6 +69,7 @@ export function changeSongsOfDate(rankDateId) {
   return (dispatch) => {
     const pageIndex = 1; // 选择日历Rank默认是回归到第一页
     // UI方面的调整
+    // 对比saga, 异步处理状态只能通过promise或嵌套callback执行
     dispatch(changeRankDateId(rankDateId));
     dispatch(clearPageIndex());
     dispatch(getRankSongs(rankDateId, pageIndex));

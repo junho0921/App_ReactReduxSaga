@@ -25,9 +25,10 @@ import {
   change_singer_initial,
 
   receiveSearch,
+  clearSearchResult,
   change_search_Page,
 
-  getDefaultSingers} from '../../action/singer';
+  getDefaultSingers} from '../../action/singer_sideAction';
 
 class Singer extends React.Component {
   constructor (props) {
@@ -37,7 +38,7 @@ class Singer extends React.Component {
     dispatch(getDefaultSingers());
     // 实例对象方法, 由于只使用dispatch方法, 所以这样处理来优化
     this.change_singer_class = (sex_type, lang_ids) => {
-      dispatch(receiveSearch());
+      dispatch(clearSearchResult());
       dispatch(change_singer_class(sex_type, lang_ids));
     };
     this.change_singer_sort = (sort) => (
@@ -57,7 +58,7 @@ class Singer extends React.Component {
     this.onSearchOutSinger = (data) => {
       dispatch(receiveSearch(data))
     };
-    this.onClearResult = () => (dispatch(receiveSearch()));
+    this.onClearResult = () => (dispatch(clearSearchResult()));
     this.onSelectSinger = (data) => {
       console.log('SingerPage onSelectSinger', data);
     };
@@ -148,7 +149,7 @@ export default connect(
       searchMaxPageIndex: data.searchMaxPageIndex,
       searchPage: data.searchPage
     };
-    console.log('_____Singer_props______', result);
+    // console.log('_____Singer_props______', result);
     return result
   }
 )(Singer);
