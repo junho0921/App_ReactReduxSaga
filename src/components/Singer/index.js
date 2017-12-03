@@ -9,7 +9,7 @@ import {connect} from 'react-redux';
 
 import SingerList from '../common/SingerList';
 import PageIndex from '../common/PageIndex';
-import Search from '../common/Search/index';
+import Search from '../common/Search_flux/index';
 
 import SingerClassList from './SingerClassList';
 import SortBtn from './SortBtn';

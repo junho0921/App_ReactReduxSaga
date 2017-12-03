@@ -4,16 +4,16 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {
-	imagineSinger,
-	focusMove,
+  imagineSinger,
+  focusMove,
   onSearchSongs,
-	searchSong,
-	input,
+  searchSong,
+  input,
   initSearchInput
-} from './action';
+} from '../Search/action';
 
-import reducer from './reducer';
-import './main.css';
+import reducer from '../Search/reducer';
+import '../Search/main.css';
 
 /*
 * Search组件是用于搜索功能的组件.
@@ -31,78 +31,78 @@ import './main.css';
 *
 * */
 class Search extends React.Component {
-	constructor(props){
-		super(props);
-		const _this = this,
-			getState = () => (_this.state),
-			dispatch = (action) => {
-				if(typeof action === 'function'){
-				  action(dispatch, getState);
-				} else {
-					const newStateContent = reducer(_this.state, action);
-					if(newStateContent){_this.setState(newStateContent);}
-				}
-			};
+  constructor(props){
+    super(props);
+    const _this = this,
+      getState = () => (_this.state),
+      dispatch = (action) => {
+        if(typeof action === 'function'){
+          action(dispatch, getState);
+        } else {
+          const newStateContent = reducer(_this.state, action);
+          if(newStateContent){_this.setState(newStateContent);}
+        }
+      };
 
-		// 初始化组件属性
+    // 初始化组件属性
     this.state = reducer(undefined, {});
     // 接受传参来初始化输入框的内容
     dispatch(initSearchInput(props.searchWord));
 
-		/*=============绑定事件=============*/
-		this.onSearchSongs = (keyWord) => (() => {
-			dispatch(onSearchSongs(keyWord));
-			typeof props.api_onSearchSongs === 'function' && props.api_onSearchSongs(keyWord);
-		});
-		this.inputChangeHandler = () => {
-			dispatch(imagineSinger);
-		};
-		this.keyPressHandler = (e) => {
-			if(e.key && e.key.length < 2) {
+    /*=============绑定事件=============*/
+    this.onSearchSongs = (keyWord) => (() => {
+      dispatch(onSearchSongs(keyWord));
+      typeof props.api_onSearchSongs === 'function' && props.api_onSearchSongs(keyWord);
+    });
+    this.inputChangeHandler = () => {
+      dispatch(imagineSinger);
+    };
+    this.keyPressHandler = (e) => {
+      if(e.key && e.key.length < 2) {
         dispatch(input(e.key))
       }
-		};
-		this.keyDownHandler = (e) => {
-			switch (e.keyCode) {
-				// 对非输入的操作键进行对应处理
-				case 38: return dispatch(focusMove('up'));
-				case 40: return dispatch(focusMove('down'));
-				case 8:  return dispatch(input('deleteWord'));
-				case 13:
-					const focusIndex = _this.state.focusIndex;
-					const keyWord = focusIndex < 0 ? this.state.inputValue.trim() : _this.state.imagineList[focusIndex];
+    };
+    this.keyDownHandler = (e) => {
+      switch (e.keyCode) {
+        // 对非输入的操作键进行对应处理
+        case 38: return dispatch(focusMove('up'));
+        case 40: return dispatch(focusMove('down'));
+        case 8:  return dispatch(input('deleteWord'));
+        case 13:
+          const focusIndex = _this.state.focusIndex;
+          const keyWord = focusIndex < 0 ? this.state.inputValue.trim() : _this.state.imagineList[focusIndex];
           return this.searchSong(keyWord);
       }
-		};
-		this.searchSong = (searchWord, searchPage, onSearchOut) => {
-			dispatch(searchSong(
+    };
+    this.searchSong = (searchWord, searchPage, onSearchOut) => {
+      dispatch(searchSong(
         searchWord 	|| _this.state.inputValue.trim(),
         searchPage 	|| 1,
         onSearchOut || _this.props.onSearchOut
-			));
-			_this.refs.searchInput.blur && _this.refs.searchInput.blur();
-		};
-		this.clickToSearch = (searchWord) => () => this.searchSong(searchWord);
-	}
+      ));
+      _this.refs.searchInput.blur && _this.refs.searchInput.blur();
+    };
+    this.clickToSearch = (searchWord) => () => this.searchSong(searchWord);
+  }
 
-	componentWillReceiveProps(newProps){
-		if(newProps.searchPage !== this.props.searchPage){
-			console.warn('页面更新了searchSinger', newProps.searchPage , this.props.searchPage);
-			this.searchSong(
+  componentWillReceiveProps(newProps){
+    if(newProps.searchPage !== this.props.searchPage){
+      console.warn('页面更新了searchSinger', newProps.searchPage , this.props.searchPage);
+      this.searchSong(
         newProps.searchWord,
         newProps.searchPage,
-				newProps.onSearchOut
-			);
-		}
-	}
+        newProps.onSearchOut
+      );
+    }
+  }
 
-	render() {
-		console.log('渲染组件 Search');
-		const imagineList = this.state.imagineList,
-			focusIndex = this.state.focusIndex,
+  render() {
+    console.log('渲染组件 Search');
+    const imagineList = this.state.imagineList,
+      focusIndex = this.state.focusIndex,
       clickToSearch = this.clickToSearch;
 
-		return (
+    return (
 			<div
 				id="SearchInput"
 				className={this.state.inputValue && 'canSearch'}>
@@ -115,34 +115,25 @@ class Search extends React.Component {
 					onChange={this.inputChangeHandler}
 					onKeyPress={this.keyPressHandler}
 					value={this.state.inputValue}/>
-				{imagineList.length &&
-					/*联想歌手的弹层*/
-					(<ul id="poplist">
-						{imagineList.map((singerName, i) => (
-							<li
-								key={singerName}
-                title={singerName}
-                className={focusIndex === i ? 'active' : ''}
-								onClick={clickToSearch(singerName)}>
-								{singerName}
-							</li>)
-						)}
-					</ul>) || ''}
+        {imagineList.length &&
+        /*联想歌手的弹层*/
+        (<ul id="poplist">
+          {imagineList.map((singerName, i) => (
+						<li
+							key={singerName}
+							title={singerName}
+							className={focusIndex === i ? 'active' : ''}
+							onClick={clickToSearch(singerName)}>
+              {singerName}
+						</li>)
+          )}
+				</ul>) || ''}
 				<span id='searchBtn' title="搜索歌曲" onClick={clickToSearch()}>
 					<i className="optSongBtn searchBtn" />
 				</span>
 			</div>
-		);
-	}
+    );
+  }
 }
 
 export default Search;
-
-// export default connect(
-//   (state) => {
-//     const data = state.Search,
-//       searchCpData = data.requestData;
-//     console.log('_____Search_props______', searchCpData);
-//     return searchCpData;
-//   }
-// )(Search);
