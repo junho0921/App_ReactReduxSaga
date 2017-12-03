@@ -34,7 +34,7 @@ class Search extends React.Component {
   constructor(props){
     super(props);
     const _this = this,
-      getState = () => (_this.state),
+      getState = () => ({Search: _this.state}),
       dispatch = (action) => {
         if(typeof action === 'function'){
           action(dispatch, getState);
@@ -43,9 +43,10 @@ class Search extends React.Component {
           if(newStateContent){_this.setState(newStateContent);}
         }
       };
-
     // 初始化组件属性
     this.state = reducer(undefined, {});
+    // 这个测试模式下获取传递的属性是通过这样的方法
+    this.getProps = () => _this.state;
     // 接受传参来初始化输入框的内容
     dispatch(initSearchInput(props.searchWord));
 
@@ -69,14 +70,16 @@ class Search extends React.Component {
         case 40: return dispatch(focusMove('down'));
         case 8:  return dispatch(input('deleteWord'));
         case 13:
-          const focusIndex = _this.state.focusIndex;
-          const keyWord = focusIndex < 0 ? this.state.inputValue.trim() : _this.state.imagineList[focusIndex];
+          const
+            props = this.getProps(),
+            focusIndex = props.focusIndex;
+          const keyWord = focusIndex < 0 ? props.inputValue.trim() : props.imagineList[focusIndex];
           return this.searchSong(keyWord);
       }
     };
     this.searchSong = (searchWord, searchPage, onSearchOut) => {
       dispatch(searchSong(
-        searchWord 	|| _this.state.inputValue.trim(),
+        searchWord 	|| _this.getProps().inputValue.trim(),
         searchPage 	|| 1,
         onSearchOut || _this.props.onSearchOut
       ));
@@ -98,14 +101,16 @@ class Search extends React.Component {
 
   render() {
     console.log('渲染组件 Search');
-    const imagineList = this.state.imagineList,
-      focusIndex = this.state.focusIndex,
+    const
+      props = this.getProps(), // 从state对象里获取属性
+      imagineList = props.imagineList,
+      focusIndex = props.focusIndex,
       clickToSearch = this.clickToSearch;
 
     return (
 			<div
 				id="SearchInput"
-				className={this.state.inputValue && 'canSearch'}>
+				className={props.inputValue && 'canSearch'}>
 				<input
 					key='searchInput'
 					ref='searchInput'
@@ -114,7 +119,7 @@ class Search extends React.Component {
 					onKeyDown={this.keyDownHandler}
 					onChange={this.inputChangeHandler}
 					onKeyPress={this.keyPressHandler}
-					value={this.state.inputValue}/>
+					value={props.inputValue}/>
         {imagineList.length &&
         /*联想歌手的弹层*/
         (<ul id="poplist">
