@@ -47,18 +47,15 @@ class Singer extends React.Component {
     this.change_singer_displayMode = (mode) => (
       dispatch(change_singer_displayMode(mode))
     );
-
     this.change_singer_Page = (pageIndex) => (
       dispatch(change_singer_page(pageIndex))
     );
-
-    this.change_singer_initial = (initial) => (
-      dispatch(change_singer_initial(initial))
-    );
-    this.onSearchOutSinger = (data) => {
-      dispatch(receiveSearch(data))
+    this.change_singer_initial = (initial) => dispatch(change_singer_initial(initial));
+    this.onSearchOutSinger = (data) => dispatch(receiveSearch(data));
+    this.onClearResult = () => dispatch(clearSearchResult());
+    this.onSelectResult = (data) => {
+      console.log('SingerPage onSelectResult', data);
     };
-    this.onClearResult = () => (dispatch(clearSearchResult()));
     this.onSelectSinger = (data) => {
       console.log('SingerPage onSelectSinger', data);
     };
@@ -79,7 +76,6 @@ class Singer extends React.Component {
 						searchPage={props.searchPage}
 						searchWord={props.searchWord}
 						onSearchOut={this.onSearchOutSinger}
-						onSelectSinger={this.onSelectSinger}
 					/>
 					<SingerClassList
 						lang_ids={singerListOptions.lang_ids}
@@ -112,9 +108,9 @@ class Singer extends React.Component {
 						<div>
 							<SearchResultList
 								searchWord={props.searchWord}
-								onSelectSinger={this.onSelectSinger}
+								onSelectResult={this.onSelectResult}
 								onClearResult={this.onClearResult}
-								singerList={props.searchResult}/>
+								searchResult={props.searchResult}/>
 							<PageIndex
 								pageIndex={props.searchPage}
 								maxPageIndex={props.searchMaxPageIndex}

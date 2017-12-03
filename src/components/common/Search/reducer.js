@@ -10,36 +10,45 @@ import {
 
 } from './action';
 
-export function singerDataReducer (data) {
-	const result = data[0],
-		dataList = result.data,
-		hasSearchResult = result.status == 1 && result.total > 0 && Object.prototype.toString.call(dataList) === '[object Array]';
-	if (hasSearchResult) {
-		dataList.forEach(function (data) {
-			data.singername = data.singername.replace(/"/g, '&quot;').replace(/'/g, '&#039;');
-		});
-	}
-	// console.log('处理后的歌手列表资料', data, dataList);
-	return (hasSearchResult && dataList) || [];
+export function singerDataReducer (result) {
+  const data = result.data,
+		dataList = data.lists,
+		hasSearchResult = result.status == 1 && Object.prototype.toString.call(dataList) === '[object Array]' && dataList.length > 0;
+	return (hasSearchResult && result) || [];
 }
+
+const singerNamesHandler = (result) => {
+  const data = result.data,
+    dataList = data.lists,
+    singerNames = new Set(),
+    hasSearchResult = result.status == 1 && Object.prototype.toString.call(dataList) === '[object Array]' && dataList.length > 0;
+  if(hasSearchResult && dataList){
+    dataList.forEach((item) => {
+      singerNames.add(item.singerName);
+    });
+    return [...singerNames];
+  }
+  return singerNames;
+};
 
 export default function reducer (state, action) {
 	const data = action.data;
 	switch (action.type){
 		case RECEIVE_IMAGINE_SINGER:
 			return {
-				imagineList: singerDataReducer(data),
+				imagineList: singerNamesHandler(data),
 				focusIndex: -1
 			};
 		case FOCUS_MOVE:
-			switch (data){
+      console.log('--> FOCUS_MOVE action = ', action);
+      switch (data){
 				case 'up':
 					let newFocusIndex;
 					if(state.focusIndex >= 0){
 						newFocusIndex = state.focusIndex - 1;
 						return {
 							focusIndex: newFocusIndex,
-							inputValue: state.imagineList[(newFocusIndex == -1) ? 0: newFocusIndex].singername
+							inputValue: state.imagineList[(newFocusIndex == -1) ? 0: newFocusIndex]
 						};
 					}
 					break;
@@ -47,9 +56,10 @@ export default function reducer (state, action) {
 					const len = state.imagineList.length;
 					if(state.focusIndex < (len -1)){
 						newFocusIndex = state.focusIndex + 1;
-						return {
+            console.log('所选择的', state.imagineList[newFocusIndex]);
+            return {
 							focusIndex: newFocusIndex,
-							inputValue: state.imagineList[newFocusIndex].singername
+							inputValue: state.imagineList[newFocusIndex]
 						};
 					}
 					break;
@@ -59,7 +69,7 @@ export default function reducer (state, action) {
 			const len = state.inputValue.length;
 			let value = '';
 
-			if(data =='deleteWord' && len){
+			if(data === 'deleteWord' && len){
 				value = state.inputValue.slice(0, len - 1);
 				if(value){
 					return {inputValue: value};

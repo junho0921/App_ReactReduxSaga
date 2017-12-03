@@ -5,6 +5,7 @@
 
 export default function SearchResultList (props) {
   console.log('渲染组件 SearchResultList');
+  const list = props.searchResult.data.lists;
   return (
 		<div id="searchResultList">
 			<div onClick={props.onClearResult}>返回</div>
@@ -13,17 +14,17 @@ export default function SearchResultList (props) {
 				搜索:
 				<p id="searchWord">{props.searchWord}</p>
 				, 共
-				<em id="resultLen">{props.singerList.length}</em>
+				<em id="resultLen">{list.length}</em>
 				条记录
 			</span>
 
 			<ul id="list1">
-        {props.singerList && props.singerList.map((item) => (
+        {list.map((item) => (
 					<li
-						key={item.singerid}
-						onClick={props.onSelectSinger.bind({},item.singerid)}>
+						key={item.hashKey}
+						onClick={props.onSelectResult.bind({}, item)}>
 						<span className="ran">{item.index}</span>
-            { item.singername } ( { item.areaname } )
+            { item.songName } - { item.singerName }
 					</li>
         ))}
 			</ul>

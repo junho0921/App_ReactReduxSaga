@@ -7,8 +7,8 @@ import PureComponent from 'react-pure-component';
 const pages = {
   Rank: '排行榜',
   Singer: '歌手',
-  Classification: '分类',
-  Collection: '歌单',
+  // Classification: '分类',
+  // Collection: '歌单',
 };
 
 const Header =  (props) => {
