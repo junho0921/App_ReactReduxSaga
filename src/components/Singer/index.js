@@ -115,7 +115,7 @@ class Singer extends React.Component {
 								pageIndex={props.searchPage}
 								maxPageIndex={props.searchMaxPageIndex}
 								onClick={this.change_search_Page}/>
-						</div>) || ''}
+						</div>) || null}
 				</div>
 			</div>
     );
