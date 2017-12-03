@@ -51,6 +51,7 @@ const receiveSingerNames = (result) =>({
   type: RECEIVE_IMAGINE_SINGER,
   data: result
 });
+export const initSearchInput = input;
 
 /*异步操作*/
 // 请求歌手

@@ -31,7 +31,13 @@ const singerNamesHandler = (result) => {
   return singerNames;
 };
 
-export default function reducer (state, action) {
+const initialState = {
+  imagineList: [],
+  focusIndex: '',
+  inputValue: ''
+};
+
+export default function _reducer (state = initialState, action) {
 	const data = action.data;
 	switch (action.type){
 		case RECEIVE_IMAGINE_SINGER:
@@ -83,7 +89,7 @@ export default function reducer (state, action) {
 			break;
 		case CLEAR_UI:
 			return {imagineList: [], focusIndex: -1, inputValue: ''};
-		default:
-			return false;
+    default:
+      return state;
 	}
 }

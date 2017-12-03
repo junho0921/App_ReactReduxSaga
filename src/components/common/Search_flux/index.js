@@ -2,12 +2,14 @@
  * Created by jiajunhe on 2016/12/10.
  */
 import React from 'react';
+import {connect} from 'react-redux';
 import {
 	imagineSinger,
 	focusMove,
   onSearchSongs,
 	searchSong,
-	input
+	input,
+  initSearchInput
 } from './action';
 
 import reducer from './reducer';
@@ -43,11 +45,9 @@ class Search extends React.Component {
 			};
 
 		// 初始化组件属性
-		this.state = {
-			imagineList: [],
-			focusIndex: '',
-			inputValue: props.searchWord || ''
-		};
+    this.state = reducer(undefined, {});
+    // 接受传参来初始化输入框的内容
+    dispatch(initSearchInput(props.searchWord));
 
 		/*=============绑定事件=============*/
 		this.onSearchSongs = (keyWord) => (() => {
@@ -137,3 +137,12 @@ class Search extends React.Component {
 }
 
 export default Search;
+
+// export default connect(
+//   (state) => {
+//     const data = state.Search,
+//       searchCpData = data.requestData;
+//     console.log('_____Search_props______', searchCpData);
+//     return searchCpData;
+//   }
+// )(Search);
