@@ -36,7 +36,7 @@ const SEARCHACCSONG_URL = 'http://songsearch.kugou.com/accsong_search_v2';
 // 输入框的输入值
 export const input = (inputValue) => ({
   type: INPUT,
-  data: inputValue
+  data: inputValue || ''
 });
 // 输入框的关注
 export const focusMove = (direction) => ({

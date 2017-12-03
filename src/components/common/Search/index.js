@@ -2,7 +2,8 @@
  * Created by jiajunhe on 2016/12/10.
  */
 import React from 'react';
-import {connect} from 'react-redux';
+// import {connect} from 'react-redux';
+import {connect} from '../Search_flux/searchComponent_redux'; // jun模拟redux的组件
 import {
 	imagineSinger,
 	focusMove,
@@ -12,7 +13,6 @@ import {
   initSearchInput
 } from './action';
 
-import reducer from './reducer';
 import './main.css';
 
 /*
@@ -87,7 +87,7 @@ class Search extends React.Component {
 	}
 
 	render() {
-		console.log('渲染组件 Search', this.props);
+		console.log('渲染组件 Search');
 		const
       props = this.props,
       imagineList = props.imagineList,
