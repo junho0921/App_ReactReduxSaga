@@ -34,25 +34,14 @@ class Search extends React.Component {
 	constructor(props){
 		super(props);
 		const _this = this,
-			getState = () => (_this.state),
-			dispatch = (action) => {
-				if(typeof action === 'function'){
-				  action(dispatch, getState);
-				} else {
-					const newStateContent = reducer(_this.state, action);
-					if(newStateContent){_this.setState(newStateContent);}
-				}
-			};
-
-		// 初始化组件属性
-    this.state = reducer(undefined, {});
+			dispatch = props.dispatch;
     // 接受传参来初始化输入框的内容
     dispatch(initSearchInput(props.searchWord));
 
 		/*=============绑定事件=============*/
 		this.onSearchSongs = (keyWord) => (() => {
 			dispatch(onSearchSongs(keyWord));
-			typeof props.api_onSearchSongs === 'function' && props.api_onSearchSongs(keyWord);
+			typeof _this.props.api_onSearchSongs === 'function' && _this.props.api_onSearchSongs(keyWord);
 		});
 		this.inputChangeHandler = () => {
 			dispatch(imagineSinger);
@@ -69,14 +58,14 @@ class Search extends React.Component {
 				case 40: return dispatch(focusMove('down'));
 				case 8:  return dispatch(input('deleteWord'));
 				case 13:
-					const focusIndex = _this.state.focusIndex;
-					const keyWord = focusIndex < 0 ? this.state.inputValue.trim() : _this.state.imagineList[focusIndex];
+					const focusIndex = _this.props.focusIndex;
+					const keyWord = focusIndex < 0 ? _this.props.inputValue.trim() : _this.props.imagineList[focusIndex];
           return this.searchSong(keyWord);
       }
 		};
 		this.searchSong = (searchWord, searchPage, onSearchOut) => {
 			dispatch(searchSong(
-        searchWord 	|| _this.state.inputValue.trim(),
+        searchWord 	|| _this.props.inputValue.trim(),
         searchPage 	|| 1,
         onSearchOut || _this.props.onSearchOut
 			));
@@ -87,6 +76,7 @@ class Search extends React.Component {
 
 	componentWillReceiveProps(newProps){
 		if(newProps.searchPage !== this.props.searchPage){
+		  // 不知道合理不
 			console.warn('页面更新了searchSinger', newProps.searchPage , this.props.searchPage);
 			this.searchSong(
         newProps.searchWord,
@@ -97,15 +87,17 @@ class Search extends React.Component {
 	}
 
 	render() {
-		console.log('渲染组件 Search');
-		const imagineList = this.state.imagineList,
-			focusIndex = this.state.focusIndex,
+		console.log('渲染组件 Search', this.props);
+		const
+      props = this.props,
+      imagineList = props.imagineList,
+			focusIndex = props.focusIndex,
       clickToSearch = this.clickToSearch;
 
 		return (
 			<div
 				id="SearchInput"
-				className={this.state.inputValue && 'canSearch'}>
+				className={props.inputValue && 'canSearch'}>
 				<input
 					key='searchInput'
 					ref='searchInput'
@@ -114,7 +106,7 @@ class Search extends React.Component {
 					onKeyDown={this.keyDownHandler}
 					onChange={this.inputChangeHandler}
 					onKeyPress={this.keyPressHandler}
-					value={this.state.inputValue}/>
+					value={props.inputValue}/>
 				{imagineList.length &&
 					/*联想歌手的弹层*/
 					(<ul id="poplist">
@@ -136,13 +128,10 @@ class Search extends React.Component {
 	}
 }
 
-export default Search;
-
-// export default connect(
-//   (state) => {
-//     const data = state.Search,
-//       searchCpData = data.requestData;
-//     console.log('_____Search_props______', searchCpData);
-//     return searchCpData;
-//   }
-// )(Search);
+export default connect(
+  (state) => {
+    const searchCpData = state.Search;
+    console.log('_____Search_props______', searchCpData);
+    return searchCpData;
+  }
+)(Search);

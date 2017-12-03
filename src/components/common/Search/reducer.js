@@ -41,10 +41,10 @@ export default function _reducer (state = initialState, action) {
 	const data = action.data;
 	switch (action.type){
 		case RECEIVE_IMAGINE_SINGER:
-			return {
+			return Object.assign({...state}, {
 				imagineList: singerNamesHandler(data),
 				focusIndex: -1
-			};
+			});
 		case FOCUS_MOVE:
       console.log('--> FOCUS_MOVE action = ', action);
       switch (data){
@@ -52,10 +52,10 @@ export default function _reducer (state = initialState, action) {
 					let newFocusIndex;
 					if(state.focusIndex >= 0){
 						newFocusIndex = state.focusIndex - 1;
-						return {
-							focusIndex: newFocusIndex,
-							inputValue: state.imagineList[(newFocusIndex == -1) ? 0: newFocusIndex]
-						};
+						return Object.assign({...state}, {
+              focusIndex: newFocusIndex,
+              inputValue: state.imagineList[(newFocusIndex === -1) ? 0: newFocusIndex]
+            });
 					}
 					break;
 				case 'down':
@@ -63,10 +63,10 @@ export default function _reducer (state = initialState, action) {
 					if(state.focusIndex < (len -1)){
 						newFocusIndex = state.focusIndex + 1;
             console.log('所选择的', state.imagineList[newFocusIndex]);
-            return {
+            return Object.assign({...state}, {
 							focusIndex: newFocusIndex,
 							inputValue: state.imagineList[newFocusIndex]
-						};
+						});
 					}
 					break;
 			}
@@ -78,17 +78,17 @@ export default function _reducer (state = initialState, action) {
 			if(data === 'deleteWord' && len){
 				value = state.inputValue.slice(0, len - 1);
 				if(value){
-					return {inputValue: value};
+					return Object.assign({...state}, {inputValue: value});
 				}else{
-					return {inputValue: value, imagineList: []};
+					return Object.assign({...state}, {inputValue: value, imagineList: []});
 				}
 			}else if(data !=='deleteWord'){
 				value = state.inputValue + data;
-				return {inputValue: value};
+				return Object.assign({...state}, {inputValue: value});
 			}
 			break;
 		case CLEAR_UI:
-			return {imagineList: [], focusIndex: -1, inputValue: ''};
+			return Object.assign({...state}, {imagineList: [], focusIndex: -1, inputValue: ''});
     default:
       return state;
 	}

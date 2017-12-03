@@ -67,7 +67,7 @@ const getSinger = (config) => new Promise((resolve, reject) =>
 );
 // 按照输入框的信息, 幻想歌手
 export const imagineSinger = (dispatch, getState) => {
-	const word = (getState()).inputValue.trim();
+	const word = (getState()).Search.inputValue.trim();
 	return getSinger({
     word: word,
     page: 1,

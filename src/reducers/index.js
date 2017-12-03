@@ -11,7 +11,7 @@ const rootReducer = combineReducers({
   // 添加各个页面的reducer
   Rank,
   Singer,
-  // Search,
+  Search,
   routing: routerReducer
 });
 
