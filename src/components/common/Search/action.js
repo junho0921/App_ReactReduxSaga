@@ -28,30 +28,23 @@ export const RECEIVE_IMAGINE_SINGER = 'RECEIVE_IMAGINE_SINGER';
 export const FOCUS_MOVE = 'FOCUS_MOVE';
 export const RECEIVE_SINGERS = 'RECEIVE_SINGERS';
 export const CLEAR_UI = 'CLEAR_UI';
-export const INPUT = 'INPUT';
 
 const SEARCHACCSONG_URL = 'http://songsearch.kugou.com/accsong_search_v2';
 
 /*常量: action*/
-// 输入框的输入值
-export const input = (inputValue) => ({
-  type: INPUT,
-  data: inputValue || ''
-});
 // 输入框的关注
 export const focusMove = (direction) => ({
   type: FOCUS_MOVE,
   data: direction
 });
-// 选择推荐歌手名
-export const onSearchSongs = (singerId) => ({
+// 重置UI
+export const resetUI = (singerId) => ({
   type: CLEAR_UI
 });
 const receiveSingerNames = (result) =>({
   type: RECEIVE_IMAGINE_SINGER,
   data: result
 });
-export const initSearchInput = input;
 
 /*异步操作*/
 // 请求歌手
@@ -66,18 +59,35 @@ const getSinger = (config) => new Promise((resolve, reject) =>
   })
 );
 // 按照输入框的信息, 幻想歌手
-export const imagineSinger = (dispatch, getState) => {
-	const word = (getState()).Search.inputValue.trim();
-	return getSinger({
-    word: word,
-    page: 1,
-  }).then((result) => dispatch(receiveSingerNames(result)));
+export const imagineSinger = (inputValue) => (dispatch) => {
+  inputValue = inputValue && inputValue.trim() || '';
+  // 没有输入值可以重置UI
+  if(!inputValue){
+    console.log('没有输入值可以重置UI');
+    getSinger.successWord = '';
+    return dispatch(resetUI());
+  }
+  // 判断是否有改变
+  var changeInput = inputValue && getSinger.successWord !== inputValue;
+  // 触发状态更新
+  if(changeInput){
+    return getSinger({
+      word: inputValue,
+      page: 1,
+    }).then((result) => {
+      // 成功请求的数据缓存起来, 用于避免重复请求
+      getSinger.successWord = inputValue;
+      dispatch(receiveSingerNames(result));
+    });
+  }else{
+    return console.error('没有修改输入值');
+  }
 };
 
 export const searchSong = (searchWord, searchPage, onSearchOut) => {
 	return (dispatch) => {
 		// 清理输入框内容
-		dispatch({type: CLEAR_UI});
+		dispatch(resetUI());
 		// console.log('searchSong', searchPage, searchWord,  onSearchOut);
 		if(searchWord && typeof onSearchOut == 'function'){
       return getSinger({

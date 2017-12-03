@@ -5,7 +5,6 @@ import {
 	RECEIVE_IMAGINE_SINGER,
 	FOCUS_MOVE,
 
-	INPUT,
 	CLEAR_UI,
 
 } from './action';
@@ -39,6 +38,7 @@ const initialState = {
 
 export default function _reducer (state = initialState, action) {
 	const data = action.data;
+  console.log('_reducer', action, state);
 	switch (action.type){
 		case RECEIVE_IMAGINE_SINGER:
 			return Object.assign({...state}, {
@@ -46,7 +46,6 @@ export default function _reducer (state = initialState, action) {
 				focusIndex: -1
 			});
 		case FOCUS_MOVE:
-      console.log('--> FOCUS_MOVE action = ', action);
       switch (data){
 				case 'up':
 					let newFocusIndex;
@@ -69,22 +68,6 @@ export default function _reducer (state = initialState, action) {
 						});
 					}
 					break;
-			}
-			break;
-		case INPUT:
-			const len = state.inputValue.length;
-			let value = '';
-
-			if(data === 'deleteWord' && len){
-				value = state.inputValue.slice(0, len - 1);
-				if(value){
-					return Object.assign({...state}, {inputValue: value});
-				}else{
-					return Object.assign({...state}, {inputValue: value, imagineList: []});
-				}
-			}else if(data !=='deleteWord'){
-				value = state.inputValue + data;
-				return Object.assign({...state}, {inputValue: value});
 			}
 			break;
 		case CLEAR_UI:

@@ -8,9 +8,7 @@ import {
 	imagineSinger,
 	focusMove,
   onSearchSongs,
-	searchSong,
-	input,
-  initSearchInput
+	searchSong
 } from './action';
 
 import './main.css';
@@ -35,28 +33,29 @@ class Search extends React.Component {
 		super(props);
 		const _this = this,
 			dispatch = props.dispatch;
-    // 接受传参来初始化输入框的内容
-    dispatch(initSearchInput(props.searchWord));
 
 		/*=============绑定事件=============*/
+    let isOnComposition = false;
+    this.handleComposition = (e) => {
+      isOnComposition = e.type !== 'compositionend';
+    };
+    this.handleChange = (e) => {
+      if (e.target instanceof HTMLInputElement && !isOnComposition) {
+        this.inputChangeHandler(e);
+      }
+    };
 		this.onSearchSongs = (keyWord) => (() => {
 			dispatch(onSearchSongs(keyWord));
 			typeof _this.props.api_onSearchSongs === 'function' && _this.props.api_onSearchSongs(keyWord);
 		});
-		this.inputChangeHandler = () => {
-			dispatch(imagineSinger);
-		};
-		this.keyPressHandler = (e) => {
-			if(e.key && e.key.length < 2) {
-        dispatch(input(e.key))
-      }
+		this.inputChangeHandler = (e) => {
+      dispatch(imagineSinger(e.target.value));
 		};
 		this.keyDownHandler = (e) => {
 			switch (e.keyCode) {
 				// 对非输入的操作键进行对应处理
 				case 38: return dispatch(focusMove('up'));
 				case 40: return dispatch(focusMove('down'));
-				case 8:  return dispatch(input('deleteWord'));
 				case 13:
 					const focusIndex = _this.props.focusIndex;
 					const keyWord = focusIndex < 0 ? _this.props.inputValue.trim() : _this.props.imagineList[focusIndex];
@@ -72,7 +71,7 @@ class Search extends React.Component {
 			_this.refs.searchInput.blur && _this.refs.searchInput.blur();
 		};
 		this.clickToSearch = (searchWord) => () => this.searchSong(searchWord);
-	}
+  }
 
 	componentWillReceiveProps(newProps){
 		if(newProps.searchPage !== this.props.searchPage){
@@ -94,7 +93,7 @@ class Search extends React.Component {
 			focusIndex = props.focusIndex,
       clickToSearch = this.clickToSearch;
 
-		return (
+    return (
 			<div
 				id="SearchInput"
 				className={props.inputValue && 'canSearch'}>
@@ -103,10 +102,12 @@ class Search extends React.Component {
 					ref='searchInput'
 					type="text"
 					placeholder="搜索歌手"
-					onKeyDown={this.keyDownHandler}
-					onChange={this.inputChangeHandler}
-					onKeyPress={this.keyPressHandler}
-					value={props.inputValue}/>
+          onKeyDown={this.keyDownHandler}
+          onCompositionStart={this.handleComposition}
+          onCompositionUpdate={this.handleComposition}
+          onCompositionEnd={this.handleComposition}
+          onChange={this.handleChange}
+        />
 				{imagineList.length &&
 					/*联想歌手的弹层*/
 					(<ul id="poplist">
