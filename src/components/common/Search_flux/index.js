@@ -108,35 +108,35 @@ class Search extends React.Component {
       clickToSearch = this.clickToSearch;
 
     return (
-			<div
-				id="SearchInput"
-				className={props.inputValue && 'canSearch'}>
-				<input
-					key='searchInput'
-					ref='searchInput'
-					type="text"
-					placeholder="搜索歌手"
-					onKeyDown={this.keyDownHandler}
-					onChange={this.inputChangeHandler}
-					onKeyPress={this.keyPressHandler}
-					value={props.inputValue}/>
+      <div
+        id="SearchInput"
+        className={props.inputValue && 'canSearch'}>
+        <input
+          key='searchInput'
+          ref='searchInput'
+          type="text"
+          placeholder="搜索歌手"
+          onKeyDown={this.keyDownHandler}
+          onChange={this.inputChangeHandler}
+          onKeyPress={this.keyPressHandler}
+          value={props.inputValue}/>
         {imagineList.length &&
         /*联想歌手的弹层*/
         (<ul id="poplist">
           {imagineList.map((singerName, i) => (
-						<li
-							key={singerName}
-							title={singerName}
-							className={focusIndex === i ? 'active' : ''}
-							onClick={clickToSearch(singerName)}>
+            <li
+              key={singerName}
+              title={singerName}
+              className={focusIndex === i ? 'active' : ''}
+              onClick={clickToSearch(singerName)}>
               {singerName}
-						</li>)
+            </li>)
           )}
-				</ul>) || ''}
-				<span id='searchBtn' title="搜索歌曲" onClick={clickToSearch()}>
+        </ul>) || ''}
+        <span id='searchBtn' title="搜索歌曲" onClick={clickToSearch()}>
 					<i className="optSongBtn searchBtn" />
 				</span>
-			</div>
+      </div>
     );
   }
 }
