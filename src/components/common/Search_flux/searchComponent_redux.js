@@ -1,9 +1,7 @@
 
 // 业务
-import {
-  initConnect,
-  createStore,
-} from './jun_redux';
+import {createStore} from './jun_redux';
+import {initConnect} from './jun_react_redux';
 
 import reducer from '../Search/reducer';
 const storeObj = createStore(reducer);
