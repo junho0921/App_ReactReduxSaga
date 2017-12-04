@@ -32,8 +32,7 @@ const singerNamesHandler = (result) => {
 
 const initialState = {
   imagineList: [],
-  focusIndex: '',
-  inputValue: ''
+  focusIndex: ''
 };
 
 export default function _reducer (state = initialState, action) {
@@ -52,9 +51,8 @@ export default function _reducer (state = initialState, action) {
 					if(state.focusIndex >= 0){
 						newFocusIndex = state.focusIndex - 1;
 						return Object.assign({...state}, {
-              focusIndex: newFocusIndex,
-              inputValue: state.imagineList[(newFocusIndex === -1) ? 0: newFocusIndex]
-            });
+              focusIndex: newFocusIndex
+						});
 					}
 					break;
 				case 'down':
@@ -63,15 +61,14 @@ export default function _reducer (state = initialState, action) {
 						newFocusIndex = state.focusIndex + 1;
             console.log('所选择的', state.imagineList[newFocusIndex]);
             return Object.assign({...state}, {
-							focusIndex: newFocusIndex,
-							inputValue: state.imagineList[newFocusIndex]
+							focusIndex: newFocusIndex
 						});
 					}
 					break;
 			}
 			break;
 		case CLEAR_UI:
-			return Object.assign({...state}, {imagineList: [], focusIndex: -1, inputValue: ''});
+			return Object.assign({...state}, {imagineList: [], focusIndex: -1});
     default:
       return state;
 	}

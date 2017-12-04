@@ -29,5 +29,5 @@ const createStore = (reducer) => {
 };
 
 module.exports = {
-  createStore,
+  createStore
 };

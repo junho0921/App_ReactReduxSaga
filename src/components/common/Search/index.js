@@ -4,12 +4,8 @@
 import React from 'react';
 // import {connect} from 'react-redux';
 import {connect} from '../Search_flux/searchComponent_redux'; // jun模拟redux的组件
-import {
-	imagineSinger,
-	focusMove,
-  onSearchSongs,
-	searchSong
-} from './action';
+import {focusMove} from './action';
+import {imagineSinger,searchSong} from './action_side';
 
 import './main.css';
 
@@ -45,7 +41,6 @@ class Search extends React.Component {
       }
     };
 		this.onSearchSongs = (keyWord) => (() => {
-			dispatch(onSearchSongs(keyWord));
 			typeof _this.props.api_onSearchSongs === 'function' && _this.props.api_onSearchSongs(keyWord);
 		});
 		this.inputChangeHandler = (e) => {
