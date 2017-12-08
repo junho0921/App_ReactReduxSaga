@@ -11,10 +11,10 @@ import reducersRender from "./reducers/index";
 import routes from "./routes";
 
 import createSagaMiddleware from 'redux-saga';
-import rootSaga from "./saga/rank";
+import rootSaga from "./saga/index";
 
 // 选择模式
-// window.actionMode = 'sagaMode';
+window.actionMode = 'sagaMode';
 // 需要routerMiddleware中间件才能给store.disptach方法传递react-router-redux的action
 import ReduxThunk from 'redux-thunk';
 const hashRouterMiddleware = routerMiddleware(hashHistory);
@@ -24,7 +24,8 @@ const store = createStore(
   // 插入异步管理系统与路由系统, 提供修改状态的机会
   applyMiddleware(
     hashRouterMiddleware,
-    ReduxThunk
+    // ReduxThunk
+    sagaMiddleware // window.actionMode === 'sagaMode'
     // (window.actionMode === 'sagaMode'?
     //   sagaMiddleware: // saga模式
     //   ReduxThunk      // redux的thunk模块,让redux可以异步处理数据的函数

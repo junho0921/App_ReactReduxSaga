@@ -57,43 +57,38 @@ export const ONCHANGE_SINGER_SORT = 'ONCHANGE_SINGER_SORT';
 // 常量: 搜索
 export const ONCHANGE_SINGER_PAGE = 'ONCHANGE_SINGER_PAGE';
 export const ON_PAGE_INIT = 'CHANGE_SEARCH_PAGE';
-
 /*
 * 获取默认的歌手列表
 * */
 export const getDefaultSingers = (data) => ({
-  type: ON_PAGE_INIT
+  type: ON_PAGE_INIT,
+  data
 });
 /*
 * 搜索歌手, 通过歌手名称索引字母
 * */
-export const change_singer_initial = (initial) => ({
+export const change_singer_initial = (data) => ({
   type: ONCHANGE_SINGER_INITIAL,
-  data:{initial, page: 1}
+  data
 });
 /*
 * 搜索歌手, 通过歌手类别
 * */
-export const change_singer_class = (sex_type, lang_ids) => ({
+export const change_singer_class = (data) => ({
   type: ONCHANGE_SINGER_CLASS,
-  data: {
-    initial: '',
-    page: 1, // todo 删除, 通过默认的请求数据填充就好了
-    sex_type,
-    lang_ids
-  }
+  data
 });
 /*
 * 搜索歌手, 通过现有歌手列表的排序变换
 * */
-export const change_singer_sort = (sort) => ({
+export const change_singer_sort = (data) => ({
   type: ONCHANGE_SINGER_SORT,
-  data: {sort}
+  data
 });
 /*
 * 搜索歌手, 通过现有歌手列表的换页
 * */
-export const change_singer_page = (page) => ({
+export const change_singer_page = (data) => ({
   type: ONCHANGE_SINGER_PAGE,
-  data: {page}
+  data
 });

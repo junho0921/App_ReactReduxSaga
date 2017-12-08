@@ -9,8 +9,6 @@ import {connect} from 'react-redux';
 
 import SingerList from '../common/SingerList';
 import PageIndex from '../common/PageIndex';
-// import Search from '../common/Search/index';
-
 import Search from '../common/Search/index';
 
 import SingerClassList from './SingerClassList';
@@ -20,65 +18,80 @@ import DisplayMode from './DisplayMode';
 import SearchResultList from './SearchResultList';
 
 import {
-  change_singer_class,
   change_singer_displayMode,
+  receiveSearch,
+  clearSearchResult,
+  change_search_Page,
+} from '../../action/singer'; // 基本信号, 没有异步操作
+
+/*异步事件*/
+import {
+  change_singer_class,
   change_singer_page,
   change_singer_sort,
   change_singer_initial,
 
-  receiveSearch,
-  clearSearchResult,
-  change_search_Page,
+  getDefaultSingers}
+  // from '../../action/singer_sideAction'; // 异步操作-thunk
+  from '../../action/singer'; // 信号--saga
 
-  getDefaultSingers} from '../../action/singer_sideAction';
-
+/*
+* 优化 :
+* 1, 使用路由参数
+* */
 class Singer extends React.Component {
   constructor (props) {
     super(props);
     const dispatch = props.dispatch;
-    // todo 使用路由参数
-    dispatch(getDefaultSingers());
+    console.log('props', props);
+
+    const getRequestData = (data) => Object.assign({...this.props.singerListOptions}, data);
     // 实例对象方法, 由于只使用dispatch方法, 所以这样处理来优化
-    this.change_singer_class = (sex_type, lang_ids) => {
-      dispatch(clearSearchResult());
-      dispatch(change_singer_class(sex_type, lang_ids));
-    };
-    this.change_singer_sort = (sort) => (
-      dispatch(change_singer_sort(sort))
-    );
-    this.change_singer_displayMode = (mode) => (
-      dispatch(change_singer_displayMode(mode))
-    );
-    this.change_singer_Page = (pageIndex) => (
-      dispatch(change_singer_page(pageIndex))
-    );
-    this.change_singer_initial = (initial) => dispatch(change_singer_initial(initial));
+    /*用户操作相关*/
+    this.change_singer_displayMode = (mode) => dispatch(change_singer_displayMode(mode));
+    this.onSelectResult = (data) => console.log('SingerPage onSelectResult', data);
+    this.onSelectSinger = (data) => console.log('SingerPage onSelectSinger', data);
+    /*搜索相关*/
     this.onSearchOutSinger = (data) => dispatch(receiveSearch(data));
     this.onClearResult = () => dispatch(clearSearchResult());
-    this.onSelectResult = (data) => {
-      console.log('SingerPage onSelectResult', data);
-    };
-    this.onSelectSinger = (data) => {
-      console.log('SingerPage onSelectSinger', data);
-    };
-    this.change_search_Page = (pageIndex) => {
-      console.log('change_search_Page', pageIndex);
-      dispatch(change_search_Page(pageIndex));
+    this.change_search_Page = (pageIndex) => dispatch(change_search_Page(pageIndex));
+    /*更新歌手列表事件*/
+    dispatch(getDefaultSingers(
+      getRequestData({}) // 后续开发可以根据hash值来获取参数
+    ));
+    this.change_singer_sort = (sort) => dispatch(change_singer_sort(
+      getRequestData({sort})
+    ));
+    this.change_singer_Page = (pageIndex) => dispatch(change_singer_page(
+      getRequestData({pageIndex})
+    ));
+    this.change_singer_initial = (initial) => dispatch(change_singer_initial(
+      getRequestData({initial, page: 1})
+    ));
+    this.change_singer_class = (sex_type, lang_ids) => {
+      console.error(sex_type, lang_ids);
+      console.error(getRequestData({sex_type, lang_ids, initial: '', page: 1}));
+      dispatch(clearSearchResult());
+      dispatch(change_singer_class(
+        getRequestData({sex_type, lang_ids, initial: '', page: 1})
+      ));
     };
   }
 
   render () {
     const props = this.props, singerListOptions = props.singerListOptions,
       contentClassName = "r fr contentScrollBar " + (props.onLoadingSingers && 'onLoadingSingers' || '') + (props.searchWord && ' onSearchResult' || '');
-
-    return (
-			<div className="main sng" id="singerPage">
-				<div className="l fl">
-					<Search
+/*
+* <Search
 						searchPage={props.searchPage}
 						searchWord={props.searchWord}
 						onSearchOut={this.onSearchOutSinger}
 					/>
+* */
+    return (
+			<div className="main sng" id="singerPage">
+				<div className="l fl">
+
 					<SingerClassList
 						lang_ids={singerListOptions.lang_ids}
 						sex_type={singerListOptions.sex_type}

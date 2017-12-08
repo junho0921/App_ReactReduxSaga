@@ -18,8 +18,8 @@ import {toggleDatePanel} from '../../action/rank';
 import * as signalAction from '../../action/rank';
 import * as thunkAction from '../../action/rank_sideAction';
 /*模式: 异步管理模式还是状态管理器*/
-const {changeSongsOfPage, changeSongsOfDate, initialContent, changeSongsOfRank} =
-	(window.actionMode === 'sagaMode'? signalAction: thunkAction);
+const {changeSongsOfPage, changeSongsOfDate, initialContent, changeSongsOfRank} =signalAction;
+// const {changeSongsOfPage, changeSongsOfDate, initialContent, changeSongsOfRank} =thunkAction;
 /*创建组件*/
 class Rank extends React.Component {
 	constructor(props){
