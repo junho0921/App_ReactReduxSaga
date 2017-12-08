@@ -56,7 +56,7 @@ export const ONCHANGE_SINGER_INITIAL = 'ONCHANGE_SINGER_INITIAL';
 export const ONCHANGE_SINGER_SORT = 'ONCHANGE_SINGER_SORT';
 // 常量: 搜索
 export const ONCHANGE_SINGER_PAGE = 'ONCHANGE_SINGER_PAGE';
-export const ON_PAGE_INIT = 'CHANGE_SEARCH_PAGE';
+export const ON_PAGE_INIT = 'ON_PAGE_INIT';
 /*
 * 获取默认的歌手列表
 * */

@@ -2,8 +2,8 @@
  * Created by jiajunhe on 2016/12/10.
  */
 import React from 'react';
-// import {connect} from 'react-redux';
-import {connect} from '../Search_flux/searchComponent_redux'; // jun模拟redux的组件
+import {connect} from 'react-redux';
+// import {connect} from '../Search_flux/searchComponent_redux'; // jun模拟redux的组件
 import {focusMove} from './action';
 import {imagineSinger,searchSong} from './action_side';
 

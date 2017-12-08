@@ -81,17 +81,15 @@ class Singer extends React.Component {
   render () {
     const props = this.props, singerListOptions = props.singerListOptions,
       contentClassName = "r fr contentScrollBar " + (props.onLoadingSingers && 'onLoadingSingers' || '') + (props.searchWord && ' onSearchResult' || '');
-/*
-* <Search
-						searchPage={props.searchPage}
-						searchWord={props.searchWord}
-						onSearchOut={this.onSearchOutSinger}
-					/>
-* */
+
     return (
 			<div className="main sng" id="singerPage">
 				<div className="l fl">
-
+          <Search
+            searchPage={props.searchPage}
+            searchWord={props.searchWord}
+            onSearchOut={this.onSearchOutSinger}
+          />
 					<SingerClassList
 						lang_ids={singerListOptions.lang_ids}
 						sex_type={singerListOptions.sex_type}
