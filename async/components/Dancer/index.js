@@ -2,9 +2,15 @@
  * Created by jiajunhe on 2016/12/10.
  */
 import React from 'react';
+import './index.css';
 
 export default function (props) {
-	return (
-		<div>Singer C</div>
-	);
+  return (
+    <div className='react_singer'>
+      <div>Dancer C</div>
+      <div>Dancer C</div>
+      <div>Dancer C</div>
+      <div>Dancer C</div>
+    </div>
+  );
 }
