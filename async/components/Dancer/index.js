@@ -6,7 +6,7 @@ import './index.css';
 
 export default function (props) {
   return (
-    <div className='react_singer'>
+    <div className='react_dancer'>
       <div>Dancer C</div>
       <div>Dancer C</div>
       <div>Dancer C</div>
